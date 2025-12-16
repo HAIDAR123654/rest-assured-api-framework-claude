@@ -1,0 +1,26 @@
+2025-12-11 23:23:41 [main] INFO  org.example.haidar.BaseTest - Setting up test suite
+2025-12-11 23:23:41 [TestNG-test=User API Tests 1-1] INFO  org.example.haidar.BaseTest - Setting up test class: UserTests in thread: 26
+2025-12-11 23:23:41 [TestNG-test=User API Tests 1-1] INFO  org.example.haidar.BaseTest - Starting test: testCreateUser in thread: 26
+2025-12-11 23:23:41 [TestNG-test=User API Tests 1-1] INFO  org.example.client.SpecBuilder - Resetting specs for thread: 26
+2025-12-11 23:23:41 [TestNG-test=User API Tests 1-1] INFO  org.example.client.SpecBuilder - Creating RequestSpecification for thread: 26
+2025-12-11 23:23:42 [TestNG-test=User API Tests 1-1] INFO  org.example.client.SpecBuilder - Creating ResponseSpecification for thread: 26
+2025-12-11 23:23:42 [TestNG-test=User API Tests 1-1] INFO  org.example.services.UserService - Creating user: John Doe 26 in thread: 26
+2025-12-11 23:23:42 [TestNG-test=User API Tests 1-1] INFO  org.example.client.RestClient - POST Request to: /public/v2/users by thread: 26
+2025-12-11 23:23:44 [TestNG-test=User API Tests 1-1] INFO  org.example.client.RestClient - Response Status Code: 201 | Thread: 26
+2025-12-11 23:23:44 [TestNG-test=User API Tests 1-1] INFO  org.example.client.RestClient - Response Time: 1017 ms | Thread: 26
+2025-12-11 23:23:44 [TestNG-test=User API Tests 1-1] INFO  org.example.haidar.BaseTest - Finishing test: testCreateUser in thread: 26
+2025-12-11 23:23:44 [TestNG-test=User API Tests 1-1] INFO  org.example.client.SpecBuilder - Removing ThreadLocal specs for thread: 26
+2025-12-11 23:23:44 [TestNG-test=User API Tests 1-1] INFO  org.example.haidar.BaseTest - Tearing down test class: UserTests in thread: 26
+2025-12-11 23:23:44 [TestNG-test=User API Tests 2-1] INFO  org.example.haidar.BaseTest - Setting up test class: UserTests in thread: 29
+2025-12-11 23:23:44 [TestNG-test=User API Tests 2-1] INFO  org.example.haidar.BaseTest - Starting test: testCreateUser in thread: 29
+2025-12-11 23:23:44 [TestNG-test=User API Tests 2-1] INFO  org.example.client.SpecBuilder - Resetting specs for thread: 29
+2025-12-11 23:23:44 [TestNG-test=User API Tests 2-1] INFO  org.example.client.SpecBuilder - Creating RequestSpecification for thread: 29
+2025-12-11 23:23:44 [TestNG-test=User API Tests 2-1] INFO  org.example.client.SpecBuilder - Creating ResponseSpecification for thread: 29
+2025-12-11 23:23:44 [TestNG-test=User API Tests 2-1] INFO  org.example.services.UserService - Creating user: John Doe 29 in thread: 29
+2025-12-11 23:23:44 [TestNG-test=User API Tests 2-1] INFO  org.example.client.RestClient - POST Request to: /public/v2/users by thread: 29
+2025-12-11 23:23:45 [TestNG-test=User API Tests 2-1] INFO  org.example.client.RestClient - Response Status Code: 201 | Thread: 29
+2025-12-11 23:23:45 [TestNG-test=User API Tests 2-1] INFO  org.example.client.RestClient - Response Time: 571 ms | Thread: 29
+2025-12-11 23:23:45 [TestNG-test=User API Tests 2-1] INFO  org.example.haidar.BaseTest - Finishing test: testCreateUser in thread: 29
+2025-12-11 23:23:45 [TestNG-test=User API Tests 2-1] INFO  org.example.client.SpecBuilder - Removing ThreadLocal specs for thread: 29
+2025-12-11 23:23:45 [TestNG-test=User API Tests 2-1] INFO  org.example.haidar.BaseTest - Tearing down test class: UserTests in thread: 29
+2025-12-11 23:23:45 [main] INFO  org.example.haidar.BaseTest - Tearing down test suite
