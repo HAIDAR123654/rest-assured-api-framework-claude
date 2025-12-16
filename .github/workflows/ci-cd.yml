@@ -1,0 +1,134 @@
+name: API Automation CI/CD
+
+on:
+  push:
+    branches: [ main, develop ]
+  pull_request:
+    branches: [ main ]
+  schedule:
+    # Run tests daily at 2 AM UTC
+    - cron: '0 2 * * *'
+  workflow_dispatch:  # Allow manual trigger
+
+jobs:
+  test:
+    name: Run API Tests
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+          cache: 'maven'
+
+      - name: Cache Maven packages
+        uses: actions/cache@v3
+        with:
+          path: ~/.m2/repository
+          key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
+          restore-keys: |
+            ${{ runner.os }}-maven-
+
+      - name: Create config directory
+        run: mkdir -p src/test/resources/config
+
+      - name: Create test config file
+        run: |
+          echo "base.url=${{ secrets.BASE_URL }}" > src/test/resources/config/config-qa.properties
+          echo "auth.token=${{ secrets.AUTH_TOKEN }}" >> src/test/resources/config/config-qa.properties
+          echo "timeout=30000" >> src/test/resources/config/config-qa.properties
+          echo "max.retry=2" >> src/test/resources/config/config-qa.properties
+
+      - name: Run tests
+        run: mvn clean test -Denv=qa
+        continue-on-error: true
+
+      - name: Generate test report
+        if: always()
+        run: |
+          echo "Tests completed. Generating report..."
+          ls -la test-output/ || echo "No test-output directory"
+
+      - name: Upload test results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: test-results
+          path: |
+            test-output/
+            target/surefire-reports/
+          retention-days: 30
+
+      - name: Upload Extent Report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: extent-report
+          path: test-output/*.html
+          retention-days: 30
+
+  publish-report:
+    name: Publish Report to GitHub Pages
+    needs: test
+    runs-on: ubuntu-latest
+    if: always()
+
+    permissions:
+      contents: write
+      pages: write
+      id-token: write
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Download Extent Report
+        uses: actions/download-artifact@v4
+        with:
+          name: extent-report
+          path: ./reports
+
+      - name: Create index.html
+        run: |
+          cd reports
+          # Find the latest extent report
+          LATEST_REPORT=$(ls -t ExtentReport_*.html | head -1)
+          # Create index.html that redirects to latest report
+          cat > index.html << EOF
+          <!DOCTYPE html>
+          <html>
+          <head>
+              <meta http-equiv="refresh" content="0; url=./${LATEST_REPORT}">
+              <title>API Test Report</title>
+          </head>
+          <body>
+              <p>Redirecting to latest test report...</p>
+              <p>If not redirected, <a href="./${LATEST_REPORT}">click here</a></p>
+          </body>
+          </html>
+          EOF
+
+      - name: Deploy to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./reports
+          publish_branch: gh-pages
+          force_orphan: true
+
+      - name: Comment PR with report link
+        if: github.event_name == 'pull_request'
+        uses: actions/github-script@v7
+        with:
+          script: |
+            github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: '📊 Test Report: https://${{ github.repository_owner }}.github.io/${{ github.event.repository.name }}/'
+            })
