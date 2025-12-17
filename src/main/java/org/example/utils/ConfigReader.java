@@ -49,7 +49,7 @@ public class ConfigReader {
         if (properties.get() == null) {
             loadProperties();
         }
-        return properties.get().getProperty("auth.token");
+        return properties.get().getProperty("token");
     }
 
     public int getTimeout() {
