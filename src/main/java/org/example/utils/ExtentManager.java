@@ -8,6 +8,7 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
 public class ExtentManager {
+
     private static ExtentReports extent;
 
     // ThreadLocal to maintain separate ExtentTest for each thread

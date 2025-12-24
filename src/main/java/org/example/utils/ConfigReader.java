@@ -42,14 +42,14 @@ public class ConfigReader {
         if (properties.get() == null) {
             loadProperties();
         }
-        return properties.get().getProperty("base.url");
+        return properties.get().getProperty("BASE_URL");
     }
 
     public String getAuthToken() {
         if (properties.get() == null) {
             loadProperties();
         }
-        return properties.get().getProperty("token");
+        return properties.get().getProperty("TOKEN");
     }
 
     public int getTimeout() {

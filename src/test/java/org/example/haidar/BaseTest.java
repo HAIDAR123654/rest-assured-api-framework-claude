@@ -35,10 +35,7 @@ public class BaseTest {
                 result.getMethod().getMethodName(), Thread.currentThread().getId());
 
         // Create test in ExtentReports for current thread
-        ExtentTest test = extent.createTest(
-                result.getMethod().getMethodName(),
-                result.getMethod().getDescription()
-        );
+        ExtentTest test = extent.createTest(result.getMethod().getMethodName(), result.getMethod().getDescription());
         test.assignCategory(result.getTestClass().getRealClass().getSimpleName());
         ExtentManager.setTest(test);
 
